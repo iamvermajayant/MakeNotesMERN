@@ -1,0 +1,102 @@
+import React, { useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import ErrorComponent from "../ErrorComponent";
+import Loading from "../Loading";
+import "./Login.css";
+import axios from "axios";
+
+const Register = () => {
+
+  const [name, setName] = useState("");
+  const [email , setEmail ] = useState("");
+  const [password, setPassword ] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pic , setPic] = useState("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg")
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message , setMessage] = useState(null);
+  const [picMessage, setPicMessage ] = useState(null);
+ 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if(password !== confirmPassword){
+      setMessage('Password do not match');
+    }
+    else{
+      setMessage(null);
+      try{
+        const config = {
+          headers : {
+            "Content-type ":"application/json"
+          }
+        }
+        setLoading(true);
+
+        const {data} = await axios.post("/api/users/", {name, email, password, pic}, config);
+          setLoading(false);
+          localStorage.setItem("userInfo", JSON.stringify(data));
+      }
+      catch(err){
+        setError(err.response.data.message);
+        setLoading(false);
+      }
+    }
+  }
+
+  return (
+    <Container className="Login-Form">
+      <h1 className="my-2">Sign Up</h1>
+      {error && <ErrorComponent>{error}</ErrorComponent>}
+      {message && <ErrorComponent>{message}</ErrorComponent>}  
+      {loading && <Loading/>}
+      <Form onSubmit={submitHandler}>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text"
+            value={name}
+            onChange = {(e) => setName(e.target.value)}
+            placeholder="Enter Name"
+           />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" 
+            placeholder="name@example.com" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" 
+            placeholder="Enter password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="confirmPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control type="password"  placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        </Form.Group>
+        {/* {picMessage && <ErrorComponent>{picMessage}</ErrorComponent>} */}
+        <Form.Group controlId="pic" className="mb-3">
+          <Form.Label>Default file input example</Form.Label>
+          <Form.Control type="file" 
+          // onChange={(e) => postPicture(e.target.files[0])}  
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+      <Row className="my-2">
+      <Col>
+        Already a user ? <Link to="/login" style={{textDecoration : 'none'}}>Login here</Link>
+      </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default Register;
