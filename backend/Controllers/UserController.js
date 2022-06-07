@@ -12,7 +12,7 @@ const registerUser = asyncHandler (async (req,res) => {
         throw new Error('user already exists');
     }
 
-    const user = await User.create({name, email, password,pic});
+    const user = await User.create({name, email, password, pic});
 
     if(user){
         res.status(201).json({

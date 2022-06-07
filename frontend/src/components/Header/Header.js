@@ -7,14 +7,16 @@ import {
   Navbar,
   NavDropdown,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 
 const Header = () => {
+  
+  const history = useNavigate();
   return (
     <>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Link to='/' style={{textDecoration: 'none'}}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <Navbar.Brand>MakeNotes</Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -24,10 +26,9 @@ const Header = () => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Link to="/mynotes" style={{textDecoration : "none"}}>
-              <Nav.Link href="#action1">My Notes</Nav.Link>
+              <Link to="/mynotes" style={{ textDecoration: "none" }}>
+                <Nav.Link href="#action1">My Notes</Nav.Link>
               </Link>
-
             </Nav>
             <Nav className="md-auto">
               <Form className="d-flex">
@@ -49,7 +50,14 @@ const Header = () => {
                   My Profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+                <NavDropdown.Item
+                  onClick={() => {
+                    localStorage.removeItem("userInfo");
+                    history("/");
+                  }}
+                >
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
