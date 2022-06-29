@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorComponent from "../ErrorComponent";
 import Loading from "../Loading";
 import "./Login.css";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { register } from "../../Actions/userAction";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -14,44 +16,34 @@ const Register = () => {
   const [pic, setPic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
+
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
+
+  const history = useNavigate();
+
+  useEffect(() => {
+    if (userInfo) {
+      history("/mynotes");
+    }
+  }, [history, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Password do not match");
     } else {
-      setMessage(null);
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-        setLoading(true);
-
-        const { data } = await axios.post(
-          "/api/users/",
-          { name, email, password, pic },
-          config
-        );
-        setLoading(false);
-        console.log(data);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-      } catch (err) {
-        setError(err.response.data.message);
-        setLoading(false);
-      }
+      dispatch(register(name,email, password, pic));
     }
   };
 
   const postPicture = (pics) => {
-    if (
-      !pics
-    ) {
+    if (!pics) {
       return setPicMessage("Please Select an image");
     }
     setPicMessage(null);
