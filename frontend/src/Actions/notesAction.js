@@ -53,7 +53,7 @@ export const createNoteAction = (title, content, category) => async (dispatch, g
       const config = {
         headers: {
           "content-type": "application/json",
-          authorization: `Bearer  ${userInfo.token}`,
+          Authorization : `Bearer ${userInfo.token}`,
         },
       };
 

@@ -8,6 +8,8 @@ import {useSelector} from "react-redux";
 import './CreateNote.css';
 import { useNavigate, useLocation } from "react-router-dom";
 import { createNoteAction } from "../../Actions/notesAction.js";
+import Loading from "../../components/Loading";
+import ErrorComponent from "../../components/ErrorComponent";
 
 
 const CreateNote = () => {
@@ -33,10 +35,9 @@ const CreateNote = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if(!title || !content || !category){
-      return;
-    }
+    if(!title || !content || !category)return;
     dispatch(createNoteAction(title, content, category));
+
     Navigate(`/mynotes`);
     resetHandler();
   };
@@ -44,6 +45,7 @@ const CreateNote = () => {
   return (
     <MainScreen title="Create a Note">
       <Card>
+      {error && <ErrorComponent>{error.message}</ErrorComponent>}
         <Card.Header>Create a Note</Card.Header>
         <Card.Body>
           <Form onSubmit={submitHandler}>
@@ -83,6 +85,7 @@ const CreateNote = () => {
                 onChange={(e) => setCategory(e.target.value)}
               />
             </Form.Group>
+            {loading && <Loading size={50}/>}
             <Button  type="submit"  variant="primary">
                 Create Note
             </Button>
