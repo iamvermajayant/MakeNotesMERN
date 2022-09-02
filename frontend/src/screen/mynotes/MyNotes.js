@@ -1,37 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import MainScreen from "../../components/MainScreen";
 import './Mynotes.css';
-import axios from 'axios';
-
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { listNotes } from "../../Actions/notesAction";
+//import {useNavigate} from "react-router-dom";
+// import Loading from '../screen/components/Loading';
+import Loading from "../../components/Loading";
+import ErrorComponent  from '../../components/ErrorComponent';
+ 
 const MyNotes = () => {
-  const [notes, setNotes] = useState([]);
+  const dispatch = useDispatch();
+  const noteList = useSelector(state => state.noteList);
+
+  const {loading, notes, error} = noteList;
+  // const [notes, setNotes] = useState([]);
 
   const deleteNote = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
     }
   };
 
-  const fetchNote = async () => {
-    const {data} = await axios.get('/api/notes');
-    setNotes(data);
-  }
+  
   
   useEffect(() => { 
-      fetchNote();
-  })
+      dispatch(listNotes());
+  },[dispatch])
 
+  // const history = useNavigate();
+  // const pathHandler = () =>{
+  //   history("/createnote")
+  // }
 
   return (
     <MainScreen title="Welcome back Jayant Verma...">
-      <Link to="createnote">
+      <Link to="/createnote">
         <Button className="btn btn-primary" size="sm">
           create Note
         </Button>
       </Link>
-
-      {notes.map((note) => (
+      {error && <ErrorComponent variant="danger">{error}</ErrorComponent>}
+      {loading && <Loading />}
+      {notes?.map((note) => (
             <Card key={note._id} style={{ margin: "10px" }}>
               <Card.Header className="d-flex align-items-center justify-content-between">
                 <span style={{ color: "black", fontSize: "20px" }}>
