@@ -5,29 +5,44 @@ import MainScreen from "../../components/MainScreen";
 import './Mynotes.css';
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { listNotes } from "../../Actions/notesAction";
-//import {useNavigate} from "react-router-dom";
+import { deleteNoteAction, listNotes } from "../../Actions/notesAction";
+import {useNavigate} from "react-router-dom";
 // import Loading from '../screen/components/Loading';
 import Loading from "../../components/Loading";
 import ErrorComponent  from '../../components/ErrorComponent';
  
-const MyNotes = () => {
+const MyNotes = ({search}) => {
   const dispatch = useDispatch();
   const noteList = useSelector(state => state.noteList);
+  const history = useNavigate();
 
   const {loading, notes, error} = noteList;
+  const userLogin = useSelector((state) => state.userLogin);
+  const {userInfo} = userLogin;
   // const [notes, setNotes] = useState([]);
 
   const deleteNote = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
+      dispatch(deleteNoteAction(id));
     }
   };
 
+  //const dispatch = useDispatch();
+  const noteCreate = useSelector((state) => state.noteCreate);
+  const {success : successCreate} = noteCreate;
   
+  const noteUpdate = useSelector((state) => state.noteUpdate);
+  const { success : successUpdate } = noteUpdate;
+
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const {loading: loadingDelete, error : errorDelete, success : successDelete} = noteDelete;
   
   useEffect(() => { 
       dispatch(listNotes());
-  },[dispatch])
+      if(!userInfo){
+        history("/")
+      }
+  },[dispatch, successCreate, userInfo, history, successUpdate, successDelete, search]);
 
   // const history = useNavigate();
   // const pathHandler = () =>{
@@ -35,15 +50,17 @@ const MyNotes = () => {
   // }
 
   return (
-    <MainScreen title="Welcome back Jayant Verma...">
+    <MainScreen title={`Welcome back ${userInfo.name}...`}>
       <Link to="/createnote">
         <Button className="btn btn-primary" size="sm">
           create Note
         </Button>
       </Link>
       {error && <ErrorComponent variant="danger">{error}</ErrorComponent>}
+      {errorDelete && (<ErrorComponent>{errorDelete}</ErrorComponent>)} 
       {loading && <Loading />}
-      {notes?.map((note) => (
+      {loadingDelete && <Loading/>}
+      {notes?.reverse().filter(filteredNotes => filteredNotes.title.toLowerCase().includes(search.toLowerCase())).map((note) => (
             <Card key={note._id} style={{ margin: "10px" }}>
               <Card.Header className="d-flex align-items-center justify-content-between">
                 <span style={{ color: "black", fontSize: "20px" }}>
@@ -51,7 +68,7 @@ const MyNotes = () => {
                 </span>
                 <div>
                   <Button
-                    href={`/notes/${note._id}`}
+                    href={`/note/${note._id}`}
                     className="btn btn-primary"
                     size="sm"
                   >
@@ -76,7 +93,10 @@ const MyNotes = () => {
                 <blockquote className="blockquote mb-0">
                   <p>{note.content}</p>
                   <footer className="blockquote-footer">
-                    {`Created on - Date`}
+                  Created At 
+                    <cite title="Source Title">
+                      {` ` + note.createdAt.substring(0 , 10)}
+                    </cite>
                   </footer>
                 </blockquote>
               </Card.Body>

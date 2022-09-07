@@ -6,7 +6,7 @@ const MainScreen = ({title, children}) => {
   return (
     <div className="main-screen-back">
         <Container>
-            <Row>
+            <Row style={{textTransform: 'capitalize'}}>
                 {title && <>
                     <h1>{title}</h1>
                     <hr></hr>

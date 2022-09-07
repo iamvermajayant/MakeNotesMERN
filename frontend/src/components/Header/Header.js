@@ -11,7 +11,7 @@ import {useDispatch, useSelector } from "react-redux";
 import { Link , useNavigate} from "react-router-dom";
 import { logout } from "../../Actions/userAction";
 
-const Header = () => {
+const Header = ({setSearch}) => {
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin)
@@ -47,14 +47,16 @@ const Header = () => {
                   placeholder="Search"
                   className="me-2"
                   aria-label="Search"
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </Form>
             </Nav>
             <Nav>
               <NavDropdown
-                title="Jayant Verma"
+                title={userInfo && userInfo.name}
                 id="basic-nav-dropdown"
                 className="mx-5"
+                style={{textTransform : "capitalize"}}
               >
                 <NavDropdown.Item href="#action/3.1">
                   My Profile
