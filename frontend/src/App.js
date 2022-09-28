@@ -9,6 +9,7 @@ import Login from "./components/Authentication/Login";
 import CreateNote from "./screen/CreateNote/CreateNote";
 import SingleNote from "./screen/SingleNote/SingleNote";
 import { useState } from "react";
+import ProfileScreen from './screen/ProfileScreen/ProfileScreen'
 
 function App() {
   const [search, setSearch] = useState("");
@@ -25,6 +26,7 @@ function App() {
             <Route path="/createnote" element={<CreateNote />}></Route>
             <Route path="/note/:id" element={<SingleNote />}></Route>
             <Route path="/mynotes" element={<MyNotes search={search} />}></Route>
+            <Route path="/profile" element={<ProfileScreen/>}></Route>
           </Routes>
         </main>
         <Footer />

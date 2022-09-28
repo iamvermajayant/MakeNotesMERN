@@ -50,7 +50,7 @@ const MyNotes = ({search}) => {
   // }
 
   return (
-    <MainScreen title={`Welcome back ${userInfo.name}...`}>
+    <MainScreen title={`Welcome back ${userInfo && userInfo.name}...`}>
       <Link to="/createnote">
         <Button className="btn btn-primary" size="sm">
           create Note

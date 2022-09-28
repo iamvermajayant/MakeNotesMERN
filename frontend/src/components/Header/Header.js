@@ -24,7 +24,7 @@ const Header = ({setSearch}) => {
   
   return (
     <>
-      <Navbar bg="light" expand="lg">
+      {userInfo ? <Navbar bg="light" expand="lg">
         <Container>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Navbar.Brand>MakeNotes</Navbar.Brand>
@@ -58,7 +58,7 @@ const Header = ({setSearch}) => {
                 className="mx-5"
                 style={{textTransform : "capitalize"}}
               >
-                <NavDropdown.Item href="#action/3.1">
+                <NavDropdown.Item href="/profile">
                   My Profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -73,7 +73,9 @@ const Header = ({setSearch}) => {
             </Nav>
           </Navbar.Collapse>
         </Container>
-      </Navbar>
+      </Navbar> : <Nav>
+
+      </Nav>}
     </>
   );
 };
