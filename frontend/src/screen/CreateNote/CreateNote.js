@@ -19,7 +19,7 @@ const CreateNote = () => {
 
   const dispatch = useDispatch();
   const noteCreate = useSelector((state) => state.noteCreate);
-
+  //eslint-disable-next-line
   const {loading , error, note} = noteCreate;
 
   const location = useLocation();

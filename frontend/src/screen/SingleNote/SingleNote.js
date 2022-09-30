@@ -8,6 +8,7 @@ import ErrorMessage from "../../components/ErrorComponent";
 import Loading from "../../components/Loading";
 import ReactMarkdown from "react-markdown";
 import {useParams} from 'react-router-dom';
+//eslint-disable-next-line
 import { useNavigate, useLocation } from "react-router-dom";
 
 const SingleNote = () => {
