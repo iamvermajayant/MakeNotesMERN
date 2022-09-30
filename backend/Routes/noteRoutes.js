@@ -3,7 +3,7 @@ const {getNoteById,
   getNotes,
   CreateNote,
   DeleteNote,
-  UpdateNote,} = require('../Controllers/noteController.js');
+  UpdateNote,} = require('../Controllers/NoteController.js');
 
 const router = express.Router();
 const {protect} = require('../Middleware/authMiddleware.js');
