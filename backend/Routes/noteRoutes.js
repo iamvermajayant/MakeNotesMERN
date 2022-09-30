@@ -3,10 +3,10 @@ const {getNoteById,
   getNotes,
   CreateNote,
   DeleteNote,
-  UpdateNote,} = require('../controllers/noteController.js');
+  UpdateNote,} = require('../Controllers/noteController.js');
 
 const router = express.Router();
-const {protect} = require('../middleware/authMiddleware.js');
+const {protect} = require('../Middleware/authMiddleware.js');
 
 
 router.route("/").get(protect, getNotes);
