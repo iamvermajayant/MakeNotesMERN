@@ -6,7 +6,7 @@ const path = require('path');
 
 
 const noteRoutes = require('./Routes/noteRoutes.js');
-const userRoutes = require('./Routes/userRoutes');
+const userRoutes = require('./Routes/UserRoutes');
 const {notFound , errorHandler} = require('./Middleware/errorMiddleware');
 
 dotenv.config();

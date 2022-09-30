@@ -2,14 +2,14 @@
 const express = require("express");
 const {authUser,
   registerUser,
-  updateUserProfile,} = require('../controllers/userController.js');
+  updateUserProfile,} = require('../Controllers/UserController.js');
 // import {
 //   authUser,
 //   registerUser,
 //   updateUserProfile,
 // } from "../controllers/userController.js";
 // import { protect } from "";
-const {protect} = require('../middleware/authMiddleware.js');
+const {protect} = require('../Middleware/authMiddleware.js');
 const router = express.Router();
 
 router.route("/").post(registerUser);
