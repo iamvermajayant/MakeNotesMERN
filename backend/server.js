@@ -5,8 +5,8 @@ const colors = require('colors');
 const path = require('path');
 
 
-const noteRoutes = require('./routes/noteRoutes.js');
-const userRoutes = require('./routes/userRoutes');
+const noteRoutes = require('./Routes/noteRoutes.js');
+const userRoutes = require('./Routes/userRoutes');
 const {notFound , errorHandler} = require('./middleware/errorMiddleware');
 
 dotenv.config();
