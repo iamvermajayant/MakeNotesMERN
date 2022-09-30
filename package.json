@@ -5,11 +5,10 @@
   "main": "index.js",
   "proxy": "http://localhost:5000",
   "scripts": {
-    "server": "nodemon backend/server.js",
-    "start" : "node backend/server.js",
+    "start": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm start\" \"npm run client\"",
-    "heroku-postbuild" : "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend --legacy-peer-deps && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend --legacy-peer-deps && npm run build --prefix frontend"
   },
   "keywords": [
     "express",
@@ -28,6 +27,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.5",
+    "nodemon": "^2.0.20",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
@@ -39,8 +39,5 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "web-vitals": "^0.2.4"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.16"
   }
 }
