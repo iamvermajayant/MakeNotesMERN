@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 // import Loading from '../screen/components/Loading';
 import Loading from "../../components/Loading";
 import ErrorComponent  from '../../components/ErrorComponent';
+import ReactMarkdown from "react-markdown";
  
 const MyNotes = ({search}) => {
   const dispatch = useDispatch();
@@ -91,7 +92,9 @@ const MyNotes = ({search}) => {
                   <Badge>{note.category}</Badge>
                 </h6>
                 <blockquote className="blockquote mb-0">
-                  <p>{note.content}</p>
+                <ReactMarkdown>
+                  {note.content}
+                </ReactMarkdown>
                   <footer className="blockquote-footer">
                   Created At 
                     <cite title="Source Title">
